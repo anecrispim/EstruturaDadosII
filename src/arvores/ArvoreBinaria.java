@@ -34,6 +34,42 @@ public class ArvoreBinaria {
 		return raiz;
 	}
 	
+	public void inserirNaoRecursivo(int chave) {
+	    raiz = inserirDadoR(raiz, chave);
+	}
+
+	private Nodo inserirDadoR(Nodo raiz, int chave) {
+	    Nodo novoNodo = new Nodo(chave);
+	    if (raiz == null) {
+	        raiz = novoNodo;
+	        return raiz;
+	    }
+
+	    Nodo nodoAtual = raiz;
+	    while (true) {
+	        if (chave < nodoAtual.chave) {
+	            if (nodoAtual.esq == null) {
+	                nodoAtual.esq = novoNodo;
+	                break;
+	            } else {
+	                nodoAtual = nodoAtual.esq;
+	            }
+	        } else if (chave > nodoAtual.chave) {
+	            if (nodoAtual.dir == null) {
+	                nodoAtual.dir = novoNodo;
+	                break;
+	            } else {
+	                nodoAtual = nodoAtual.dir;
+	            }
+	        } else {
+	            // A chave já existe na árvore, trate conforme necessário
+	            break;
+	        }
+	    }
+
+	    return raiz;
+	}
+	
 	public void mostrarEmOrdemCrescente() {
 		mostrarCrescente(raiz);
 	}

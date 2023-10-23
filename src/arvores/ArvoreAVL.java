@@ -2,6 +2,7 @@ package arvores;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class ArvoreAVL {
 	// classe Nodo
@@ -24,6 +25,36 @@ public class ArvoreAVL {
 	public ArvoreAVL() {
 		raiz = null;
 	}
+	
+	public boolean buscar(int valor) {
+        // Fila para realizar a busca em largura (BFS)
+        Queue<Nodo> fila = new LinkedList<>();
+        
+        // Adiciona a raiz à fila para iniciar a busca
+        fila.offer(raiz);
+
+        // Loop enquanto houver nós na fila
+        while (!fila.isEmpty()) {
+            // Remove o nó da frente da fila
+            Nodo nodoAtual = fila.poll();
+
+            // Verifica se o valor é igual ao valor do nó atual
+            if (nodoAtual.dado == valor) {
+                return true; // Valor encontrado
+            }
+
+            // Adiciona os filhos do nó atual à fila para continuar a busca
+            if (nodoAtual.esq != null) {
+                fila.offer(nodoAtual.esq);
+            }
+            if (nodoAtual.dir != null) {
+                fila.offer(nodoAtual.dir);
+            }
+        }
+
+        // Valor não encontrado na árvore
+        return false;
+    }
 	
 	public void inserir(int dado) {
 		raiz = inserirDado(raiz, dado);
@@ -54,6 +85,59 @@ public class ArvoreAVL {
 			raiz = balanceamento(raiz);
 		}
 		return raiz;
+	}
+	
+	public void inserirNaoRecursivo(int dado) {
+		raiz = inserirDadoR(raiz, dado);
+	}
+	
+	private Nodo inserirDadoR(Nodo raiz, int dado) {
+	    Stack<Nodo> pilha = new Stack<>();
+	    Nodo current = raiz;
+	    Nodo parent = null;  // Nodo pai do nó atual
+
+	    // Encontrar a posição de inserção e rastrear os nós visitados
+	    while (current != null) {
+	        parent = current;
+	        pilha.push(parent);
+
+	        if (dado < current.dado) {
+	            current = current.esq;
+	        } else if (dado > current.dado) {
+	            current = current.dir;
+	        } else {
+	            // Se o dado já existe na árvore, você pode tratar isso conforme necessário.
+	            // Por exemplo, pode não adicionar um novo nó com o mesmo valor.
+	            return raiz;
+	        }
+	    }
+
+	    // Inserir o novo nodo
+	    Nodo newNode = new Nodo(dado);
+	    if (parent == null) {
+	        // Se a árvore está vazia, o novo nó é a raiz
+	        return newNode;
+	    } else if (dado < parent.dado) {
+	        parent.esq = newNode;
+	    } else {
+	        parent.dir = newNode;
+	    }
+
+	    // Agora, é necessário percorrer a pilha e atualizar as alturas e realizar o balanceamento
+	    while (!pilha.isEmpty()) {
+	        Nodo node = pilha.pop();
+	        atualizarAltura(node);
+	        raiz = balanceamento(node);
+	    }
+
+	    return raiz;
+	}
+	
+	private void atualizarAltura(Nodo nodo) {
+	    int alturaEsquerda = (nodo.esq == null) ? -1 : Math.max(nodo.esq.alte, nodo.esq.altd);
+	    int alturaDireita = (nodo.dir == null) ? -1 : Math.max(nodo.dir.alte, nodo.dir.altd);
+	    nodo.alte = alturaEsquerda + 1;
+	    nodo.altd = alturaDireita + 1;
 	}
 	
 	private Nodo balanceamento(Nodo raiz) {
