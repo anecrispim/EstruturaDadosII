@@ -10,7 +10,7 @@ public class MainB {
 		ArvoreAVL avl = new ArvoreAVL();
 		ArvoreBinaria abin = new ArvoreBinaria();
 		
-        int numElmentos = 100000001;
+        int numElmentos = 100000000;
         Random random = new Random();
         Set<Integer> numerosAleatorios = new HashSet<>();
         
