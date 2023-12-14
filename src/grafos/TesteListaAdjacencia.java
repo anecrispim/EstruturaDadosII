@@ -28,10 +28,11 @@ public class TesteListaAdjacencia {
 		// testando 1a,b
 		System.out.println();
 		grafo.removeVertice(2);
-//		grafo.removeAresta(0, 1);
+
 		grafo.mostrarListaAdjacencias();
 		
-
+//		grafo.removeAresta(0, 1);
+		
 		System.out.println(grafo.verificaConexo());
 		
 		System.out.println();
@@ -47,13 +48,8 @@ public class TesteListaAdjacencia {
 		
 		System.out.println(grafo2.verificaCompleto());
 		
-		grafo2.adicionaAresta(1, 2);
-		
-		grafo2.mostrarListaAdjacencias();
-		
-		System.out.println(grafo2.verificaCompleto());
-		
-		//grafo2.adicionaAresta(0, 3);
+//		grafo2.adicionaAresta(1, 2);
+//		grafo2.adicionaAresta(0, 3);
 		
 		grafo2.mostrarListaAdjacencias();
 		
@@ -62,13 +58,9 @@ public class TesteListaAdjacencia {
 		System.out.println();
 		
 		// testando 1d
-		int origem = 0;
-        int[] distancias = grafo2.dijkstra(origem);
+        int distancia = grafo2.dijkstra(0, 1);
 
-        System.out.println("Distâncias mínimas a partir do vértice " + origem + ":");
-        for (int i = 0; i < distancias.length; i++) {
-            System.out.println("Para o vértice " + i + ": " + distancias[i]);
-        }
+       System.out.println(distancia);
         
         System.out.println();
         

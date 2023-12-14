@@ -168,32 +168,33 @@ public class ListaAdjacencia {
 	}
 	
 	// Trabalho 1d
-	public int[] dijkstra(int origem) {
-        int[] distancias = new int[nVertices];
-        boolean[] visitado = new boolean[nVertices];
-        Arrays.fill(distancias, INF);
-        distancias[origem] = 0;
+	public int dijkstra(int origem, int destino) {
+	    int[] distancias = new int[nVertices+1];
+	    boolean[] visitado = new boolean[nVertices];
+	    Arrays.fill(distancias, INF);
+	    distancias[origem] = 0;
 
-        PriorityQueue<Integer> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(o -> distancias[o]));
-        filaPrioridade.add(origem);
+	    PriorityQueue<Integer> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(o -> distancias[o]));
+	    filaPrioridade.add(origem);
 
-        while (!filaPrioridade.isEmpty()) {
-            int u = filaPrioridade.poll();
-            visitado[u] = true;
+	    while (!filaPrioridade.isEmpty()) {
+	        int u = filaPrioridade.poll();
+	        visitado[u] = true;
 
-            for (Aresta aresta : adjacencias.get(u)) {
-                int v = aresta.destino;
-                int peso = aresta.peso;
+	        for (Aresta aresta : adjacencias.get(u)) {
+	            int v = aresta.destino;
+	            int peso = aresta.peso;
 
-                if (!visitado[v] && distancias[u] != INF && distancias[u] + peso < distancias[v]) {
-                    distancias[v] = distancias[u] + peso;
-                    filaPrioridade.add(v);
-                }
-            }
-        }
+	            if (!visitado[v] && distancias[u] != INF && distancias[u] + peso < distancias[v]) {
+	                distancias[v] = distancias[u] + peso;
+	                
+	                filaPrioridade.add(v);
+	            }
+	        }
+	    }
 
-        return distancias;
-    }
+	    return distancias[destino];
+	}
 	
 	// Trabalho 1e
 	public String verificarEuleriano() {
